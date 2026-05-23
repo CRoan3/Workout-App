@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link} from "react-router-dom";
 import { type Exercise, getExercises } from "../api/exerciseAPI";
 
 // Displays the list of exercises from the backend
@@ -38,7 +39,9 @@ export default function ExerciseList() {
                 <ul>
                     {exercises.map((exercise) => (
                     <li key={exercise.id}>
-                        <h3>{exercise.name}</h3>
+                        <h3>
+                            <Link to={`/exercises/${exercise.id}`}>{exercise.name}</Link>
+                        </h3>
                         <p>{exercise.description}</p>
                     </li>
                     ))}

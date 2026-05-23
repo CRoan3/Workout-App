@@ -1,6 +1,7 @@
 package com.chrisroan.workout.controller;
 
 import com.chrisroan.workout.domain.Exercise;
+import com.chrisroan.workout.dto.ExerciseResponseDTO;
 import com.chrisroan.workout.service.ExerciseService;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,14 +26,14 @@ public class ExerciseController {
     // GET /api/exercises
     // Returns all exercises
     @GetMapping
-    public List<Exercise> getAllExercises() {
+    public List<ExerciseResponseDTO> getAllExercises() {
         return exerciseService.getAllExercises();
     }
 
     // GET /api/exercises/{id}
     // Returns a single exercise by ID
     @GetMapping("/{id}")
-    public Exercise getExerciseById(@PathVariable Long id) {
+    public ExerciseResponseDTO getExerciseById(@PathVariable Long id) {
         return exerciseService.getExerciseById(id);
     }
 }

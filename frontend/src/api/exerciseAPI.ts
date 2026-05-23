@@ -21,3 +21,13 @@ export async function getExercises(): Promise<Exercise[]> {
     return response.json();
 }
 
+export async function getExercisesById(id: number): Promise<Exercise> {
+    const response = await fetch(`http://localhost:8080/api/exercises/${id}`)   //have to use `` instead of "" to get the id param to work
+
+    if(!response.ok) {
+        throw new Error("Failed to fetch exercises");
+    }
+
+    return response.json();
+}
+
