@@ -2,6 +2,7 @@ package com.chrisroan.workout.service;
 
 import com.chrisroan.workout.domain.Exercise;
 import com.chrisroan.workout.dto.ExerciseResponseDTO;
+import com.chrisroan.workout.dto.ExerciseTipDTO;
 import com.chrisroan.workout.repository.ExerciseRepository;
 import org.springframework.stereotype.Service;
 
@@ -35,13 +36,31 @@ public class ExerciseService {
 
     //helper method: converts an Exercise entity into a frontend-friendly DTO
     private ExerciseResponseDTO mapToDTO(Exercise exercise) {
+
+        //Convert Tag entities into a list of tag names
+        List<String> tags = exercise.getTags()
+                .stream()
+                .map(tag -> tag.getName())
+                .toList();
+
+        // Convert ExerciseTip entities into tip DTOs
+        List<ExerciseTipDTO> tips = exercise.getTips()
+                .stream()
+                .map(tip -> new ExerciseTipDTO(
+                        tip.getTip(),
+                        tip.getSortOrder()
+                )).toList();
+
+
         return new ExerciseResponseDTO(
                 exercise.getId(),
                 exercise.getName(),
                 exercise.getUrl(),
                 exercise.getDescription(),
                 exercise.getCreatedAt().toInstant(),
-                exercise.getUpdatedAt().toInstant()
+                exercise.getUpdatedAt().toInstant(),
+                tags,
+                tips
         );
     }
 }

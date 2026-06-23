@@ -1,3 +1,10 @@
+// represents one coaching tip from the backend
+export type ExerciseTip = {
+    tip: string;
+    sortOrder: number;
+}
+
+
 // TS shape for an exercise returned by the backend
 export type Exercise = {
     id: number;
@@ -6,6 +13,9 @@ export type Exercise = {
     description: string | null;
     createdAt: string;
     updatedAt: string;
+
+    tags: string[];
+    tips: ExerciseTip[];
 };
 
 // Fetches all exercises from the Spring backend
@@ -21,6 +31,7 @@ export async function getExercises(): Promise<Exercise[]> {
     return response.json();
 }
 
+// fetches one exercise by ID from Spring boot backend
 export async function getExercisesById(id: number): Promise<Exercise> {
     const response = await fetch(`http://localhost:8080/api/exercises/${id}`)   //have to use `` instead of "" to get the id param to work
 

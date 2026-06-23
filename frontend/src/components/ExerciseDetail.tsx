@@ -57,6 +57,34 @@ export default function ExerciseDetail() {
                 </p>
             )}
 
+            <section>
+                <h3>Tags</h3>
+
+                {exercise.tags.length === 0 ? (
+                    <p>No tags available.</p>
+                ) : (
+                    <ul>
+                        {exercise.tags.map((tag) => (
+                            <li key={tag}>{tag}</li>
+                        ))}
+                    </ul>
+                )}
+            </section>
+
+            <section>
+                <h3>Tips</h3>
+
+                {exercise.tips.length === 0 ? (
+                    <p>No tips available.</p>
+                ) : (
+                    <ol>
+                        {exercise.tips.map((tip) => (
+                            <li key={`${tip.sortOrder}-${tip.tip}`}>{tip.tip}</li>
+                        ))}
+                    </ol>
+                )}
+            </section>
+
             <small>Exercise ID: {exercise.id}</small>
         </section>
     )
