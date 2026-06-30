@@ -1,22 +1,22 @@
 package com.chrisroan.workout.dto;
 
-import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 
-// Data shape sent from frontend to backend for an exercise
+// Data shape sent from backend to frontend for an exercise
 public class ExerciseResponseDTO {
-    private long id;
+    private Long id;
     private String name;
     private String url;
     private String description;
-    private Instant createdAt;
-    private Instant updatedAt;
+    private OffsetDateTime createdAt;
+    private OffsetDateTime updatedAt;
 
     private List<String> tags;
     private List<ExerciseTipDTO> tips;
 
-    public ExerciseResponseDTO(Long id, String name, String url, String description, Instant createdAt, Instant updatedAt, List<String> tags, List<ExerciseTipDTO> tips) {
+    public ExerciseResponseDTO(Long id, String name, String url, String description, OffsetDateTime createdAt, OffsetDateTime updatedAt, List<String> tags, List<ExerciseTipDTO> tips) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -27,7 +27,7 @@ public class ExerciseResponseDTO {
         this.tips = tips;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -43,11 +43,11 @@ public class ExerciseResponseDTO {
         return description;
     }
 
-    public Instant getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public Instant getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 

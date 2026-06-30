@@ -1,7 +1,6 @@
 package com.chrisroan.workout.domain;
 
 import jakarta.persistence.*;
-import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -49,7 +48,6 @@ public class Exercise {
         return tags;
     }
 
-
     public Long getId() {
         return id;
     }
@@ -74,4 +72,15 @@ public class Exercise {
         return updatedAt;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

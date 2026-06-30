@@ -3,6 +3,7 @@ package com.chrisroan.workout.controller;
 import com.chrisroan.workout.domain.Exercise;
 import com.chrisroan.workout.dto.ExerciseResponseDTO;
 import com.chrisroan.workout.service.ExerciseService;
+import com.chrisroan.workout.dto.ExerciseCreateRequestDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,5 +36,19 @@ public class ExerciseController {
     @GetMapping("/{id}")
     public ExerciseResponseDTO getExerciseById(@PathVariable Long id) {
         return exerciseService.getExerciseById(id);
+    }
+
+    // POST /api/exercises
+    // Creates a new exercise
+    @PostMapping
+    public ExerciseResponseDTO createExercise(@RequestBody ExerciseCreateRequestDTO request) {
+        return exerciseService.createExercise(request);
+    }
+
+    // PUT /api/exercises/{id}
+    // updates an existing exercise
+    @PutMapping("/{id}")
+    public ExerciseResponseDTO updateExercise(@PathVariable Long id, @RequestBody ExerciseCreateRequestDTO request) {
+        return exerciseService.updateExercise(id, request);
     }
 }

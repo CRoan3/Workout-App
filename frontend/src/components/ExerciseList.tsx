@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { type Exercise, getExercises } from "../api/exerciseAPI";
 
 // Displays the list of exercises from the backend
@@ -32,6 +32,8 @@ export default function ExerciseList() {
     return (
         <section>
             <h2>Exercises</h2>
+
+            <Link to="/exercises/new">Create New Exercise</Link>
 
             {exercises.length === 0 ? (
                 <p>No exercises found.</p>

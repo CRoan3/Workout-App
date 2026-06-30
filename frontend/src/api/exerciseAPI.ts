@@ -16,7 +16,7 @@ export type Exercise = {
 
     tags: string[];
     tips: ExerciseTip[];
-};
+}
 
 // Fetches all exercises from the Spring backend
 export async function getExercises(): Promise<Exercise[]> {
@@ -31,7 +31,7 @@ export async function getExercises(): Promise<Exercise[]> {
     return response.json();
 }
 
-// fetches one exercise by ID from Spring boot backend
+// fetches one exercise by ID from Spring boot backend]
 export async function getExercisesById(id: number): Promise<Exercise> {
     const response = await fetch(`http://localhost:8080/api/exercises/${id}`)   //have to use `` instead of "" to get the id param to work
 
@@ -41,4 +41,30 @@ export async function getExercisesById(id: number): Promise<Exercise> {
 
     return response.json();
 }
+
+// Data sent to backend when creating an exercise
+export type CreateExerciseRequest = {
+    name: string;
+    description: string;
+    url: string;
+}
+
+// Sends a new exercise to the backend
+export async function createExercise(exercise: CreateExerciseRequest): Promise<Exercise> {
+    const response = await fetch("http://localhost:8080/api/exercises", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(exercise),
+    });
+
+    if (!response) {
+        throw new Error("Failed to create exercise.");
+    }
+    
+    return response.json();
+}
+
+
 

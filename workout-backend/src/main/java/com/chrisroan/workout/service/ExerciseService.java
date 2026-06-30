@@ -1,6 +1,7 @@
 package com.chrisroan.workout.service;
 
 import com.chrisroan.workout.domain.Exercise;
+import com.chrisroan.workout.dto.ExerciseCreateRequestDTO;
 import com.chrisroan.workout.dto.ExerciseResponseDTO;
 import com.chrisroan.workout.dto.ExerciseTipDTO;
 import com.chrisroan.workout.repository.ExerciseRepository;
@@ -38,18 +39,23 @@ public class ExerciseService {
     private ExerciseResponseDTO mapToDTO(Exercise exercise) {
 
         //Convert Tag entities into a list of tag names
-        List<String> tags = exercise.getTags()
+        List<String> tags = exercise.getTags() == null
+                ? List.of()
+                : exercise.getTags()
                 .stream()
                 .map(tag -> tag.getName())
                 .toList();
 
         // Convert ExerciseTip entities into tip DTOs
-        List<ExerciseTipDTO> tips = exercise.getTips()
+        List<ExerciseTipDTO> tips = exercise.getTips() == null
+                ? List.of()
+                : exercise.getTips()
                 .stream()
                 .map(tip -> new ExerciseTipDTO(
                         tip.getTip(),
                         tip.getSortOrder()
-                )).toList();
+                ))
+                .toList();
 
 
         return new ExerciseResponseDTO(
@@ -57,10 +63,57 @@ public class ExerciseService {
                 exercise.getName(),
                 exercise.getUrl(),
                 exercise.getDescription(),
-                exercise.getCreatedAt().toInstant(),
-                exercise.getUpdatedAt().toInstant(),
+                exercise.getCreatedAt(),
+                exercise.getUpdatedAt(),
                 tags,
                 tips
         );
+    }
+
+    // creates an exercise and returns the DTO
+    public ExerciseResponseDTO createExercise(ExerciseCreateRequestDTO request) {
+        //Create a new exercise entity
+        Exercise exercise = new Exercise();
+
+        //copy request data into the entity
+        exercise.setName(request.getName());
+        exercise.setDescription(request.getDescription());
+        exercise.setUrl(request.getUrl());
+
+        // save the entity to the database
+        Exercise savedExercise = exerciseRepository.save(exercise);
+
+        // convert saved entity into response DTO
+        return new ExerciseResponseDTO(
+                savedExercise.getId(),
+                savedExercise.getName(),
+                savedExercise.getUrl(),
+                savedExercise.getDescription(),
+                savedExercise.getCreatedAt(),
+                savedExercise.getUpdatedAt(),
+                List.of(),
+                List.of()
+        );
+    }
+
+    public ExerciseResponseDTO updateExercise(Long id, ExerciseCreateRequestDTO request) {
+        //Find existing exercise first
+        Exercise exercise = exerciseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Exercise not found with id: " + id));
+
+        //copy updated request data onto the existing entity
+        exercise.setName(request.getName());
+        exercise.setDescription(request.getDescription());
+        exercise.setUrl(request.getUrl());
+
+        //save the updated entity
+        Exercise savedExercise = exerciseRepository.save(exercise);
+
+        // re-fetch the exercise so db-triggered fields like updated_at are current
+        Exercise refreshedExercise = exerciseRepository.findById(savedExercise.getId())
+                .orElseThrow(() -> new RuntimeException("Exercise not found after update."));
+
+        //return updated exercise as a DTO
+        return mapToDTO(savedExercise);
     }
 }

@@ -33,3 +33,17 @@ CREATE INDEX idx_exercise_tags_exercise_id ON exercise_tags(exercise_id);
 
 CREATE INDEX idx_exercise_tips_exercise_sort
 ON exercise_tips(exercise_id, sort_order);
+
+/* DB trigger for updated_at in exercise table*/
+CREATE OR REPLACE FUNCTION set_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_exercises_updated_at
+BEFORE UPDATE ON exercises
+FOR EACH ROW
+EXECUTE FUNCTION set_updated_at();
