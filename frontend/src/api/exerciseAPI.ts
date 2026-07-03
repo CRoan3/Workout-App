@@ -42,7 +42,7 @@ export async function getExercisesById(id: number): Promise<Exercise> {
     return response.json();
 }
 
-// Data sent to backend when creating an exercise
+// Data sent to backend when creating an exercise. Will maybe delete because SaveExerciseRequest is the same thing
 export type CreateExerciseRequest = {
     name: string;
     description: string;
@@ -67,4 +67,29 @@ export async function createExercise(exercise: CreateExerciseRequest): Promise<E
 }
 
 
+// data sent to backend when creating/updating an exercise
+export type SaveExerciseRequest = {
+    name: string;
+    description: string;
+    url: string;
+}
 
+// sends updated exercise data to the backend
+export async function updateExercise(
+    id: number,
+    exercise: SaveExerciseRequest
+): Promise<Exercise> {
+    const response = await fetch(`http://localhost:8080/api/exercises/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(exercise)
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to update exercise.");
+    }
+
+    return response.json();  //updated exercise
+}

@@ -45,7 +45,8 @@ export default function ExerciseDetail() {
     //note: capital L for router links
     return (
         <section>
-            <Link to="/exercises">← Back to exercises</Link>    
+            <Link to="/exercises">← Back to exercises</Link>
+            <Link to={`/exercises/${exercise.id}/edit`}>Edit Exercise</Link>
             <h2>{exercise.name}</h2>
             <p>{exercise.description ?? "No description available."}</p>
 

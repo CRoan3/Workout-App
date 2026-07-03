@@ -3,6 +3,7 @@ import ExerciseList from './components/ExerciseList';
 import ExerciseDetail from './components/ExerciseDetail';
 import './App.css';
 import ExerciseCreateForm from "./components/ExerciseCreateForm";
+import ExerciseEditForm from "./components/ExerciseEditForm";
 
 // Main app component
 function App() {
@@ -15,6 +16,7 @@ function App() {
             <Route path="/exercises" element={<ExerciseList/>} />
             <Route path="/exercises/new" element={<ExerciseCreateForm/>} />
             <Route path="/exercises/:id" element={<ExerciseDetail />} />
+            <Route path="/exercises/:id/edit" element={<ExerciseEditForm />} />
           </Routes>
 
         </main>
