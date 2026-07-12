@@ -34,5 +34,48 @@ public class WorkoutDay {
     @OrderBy("exerciseOrder ASC")
     private List<WorkoutDayExercise> exercises = new ArrayList<>();
 
-    // getters & setters....
+    // We do not need a setter for Id because the database generates that for us, users should never need to do it
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getDayOrder() {
+        return dayOrder;
+    }
+
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public WorkoutPlan getWorkoutPlan() {
+        return workoutPlan;
+    }
+
+    public List<WorkoutDayExercise> getExercises() {
+        return exercises;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDayOrder(Integer dayOrder) {
+        this.dayOrder = dayOrder;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public void setWorkoutPlan(WorkoutPlan workoutPlan) {
+        this.workoutPlan = workoutPlan;
+    }
+
+    public void setExercises(List<WorkoutDayExercise> exercises) {
+        this.exercises = exercises;
+    }
 }
