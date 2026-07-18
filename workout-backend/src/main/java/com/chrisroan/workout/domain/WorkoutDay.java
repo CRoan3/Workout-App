@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.DayOfWeek;
 
 @Entity
 @Table(name = "workout_days")
@@ -12,14 +13,15 @@ public class WorkoutDay {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "day_order", nullable = false)  // order to execute the workout days in the exercise program
     private Integer dayOrder;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "day_of_week")    // User will be able to assign the workout day to a day of the week
-    private String dayOfWeek;
+    private DayOfWeek dayOfWeek;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workout_plan_id", nullable = false)
@@ -47,7 +49,7 @@ public class WorkoutDay {
         return dayOrder;
     }
 
-    public String getDayOfWeek() {
+    public DayOfWeek getDayOfWeek() {
         return dayOfWeek;
     }
 
@@ -67,7 +69,7 @@ public class WorkoutDay {
         this.dayOrder = dayOrder;
     }
 
-    public void setDayOfWeek(String dayOfWeek) {
+    public void setDayOfWeek(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
 
