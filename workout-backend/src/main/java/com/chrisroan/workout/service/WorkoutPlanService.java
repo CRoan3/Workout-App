@@ -1,19 +1,11 @@
 package com.chrisroan.workout.service;
 
-import com.chrisroan.workout.domain.Exercise;
-import com.chrisroan.workout.dto.ExerciseCreateRequestDTO;
+
 import com.chrisroan.workout.domain.WorkoutPlan;
-import com.chrisroan.workout.dto.ExerciseResponseDTO;
 import com.chrisroan.workout.dto.WorkoutPlanCreateRequestDTO;
 import com.chrisroan.workout.dto.WorkoutPlanResponseDTO;
-import com.chrisroan.workout.dto.ExerciseTipDTO;
-import com.chrisroan.workout.repository.ExerciseRepository;
 import com.chrisroan.workout.repository.WorkoutPlanRepository;
-import com.chrisroan.workout.repository.WorkoutDayRepository;
-import com.chrisroan.workout.repository.WorkoutDayExerciseRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class WorkoutPlanService {
@@ -43,7 +35,7 @@ public class WorkoutPlanService {
     }
 
     //mapping workout plan response to DTO
-    public WorkoutPlanResponseDTO mapToDTO (
+    private WorkoutPlanResponseDTO mapToDTO (
             WorkoutPlan workoutPlan
     ) {
         return new WorkoutPlanResponseDTO(
