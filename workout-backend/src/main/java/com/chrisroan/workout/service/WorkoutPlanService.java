@@ -5,7 +5,11 @@ import com.chrisroan.workout.domain.WorkoutPlan;
 import com.chrisroan.workout.dto.WorkoutPlanCreateRequestDTO;
 import com.chrisroan.workout.dto.WorkoutPlanResponseDTO;
 import com.chrisroan.workout.repository.WorkoutPlanRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 public class WorkoutPlanService {
@@ -16,7 +20,7 @@ public class WorkoutPlanService {
         this.workoutPlanRepository = workoutPlanRepository;
     }
 
-    //constructor for the workout plan
+    //service method that creates and saves a new workout plan (not a constructor per se, as it does not
     public WorkoutPlanResponseDTO createWorkoutPlan (
             WorkoutPlanCreateRequestDTO request
     ) {
@@ -34,14 +38,31 @@ public class WorkoutPlanService {
         return mapToDTO(savedWorkoutPlan);
     }
 
-    //mapping workout plan response to DTO
+    public List<WorkoutPlanResponseDTO> getAllWorkoutPlans() {
+        return workoutPlanRepository.findAll()
+                .stream()   //stream lets us process each item in the list
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+    public WorkoutPlanResponseDTO getWorkoutPlanById(Long id) {
+        WorkoutPlan workoutPlan = workoutPlanRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                "Workout Plan not found with id: " + id));
+        return mapToDTO(workoutPlan);
+    }
+
+    //mapping workout plan response to DTO. Should be private not public
     private WorkoutPlanResponseDTO mapToDTO (
             WorkoutPlan workoutPlan
     ) {
         return new WorkoutPlanResponseDTO(
-            workoutPlan.getId(), workoutPlan.getName(),
-            workoutPlan.getDescription(), workoutPlan.getCreatedAt(),
-            workoutPlan.getUpdatedAt());
+                workoutPlan.getId(),
+                workoutPlan.getName(),
+                workoutPlan.getDescription(),
+                workoutPlan.getCreatedAt(),
+                workoutPlan.getUpdatedAt());
     }
 
 }
