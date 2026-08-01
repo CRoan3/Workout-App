@@ -2,9 +2,6 @@ package com.chrisroan.workout.domain;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name =  "workout_day_exercises")
 public class WorkoutDayExercise {
