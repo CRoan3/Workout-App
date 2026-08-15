@@ -31,4 +31,6 @@ public class WorkoutDayCreateRequestDTO {
     public void setDayOfWeek(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
+
+
 }

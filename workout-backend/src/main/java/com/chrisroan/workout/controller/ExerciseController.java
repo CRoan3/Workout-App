@@ -8,12 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-// Marks this class as a REST API controller
-@RestController
-// Base route for all exercise endpoints
-@RequestMapping("/api/exercises")
-//CORS issue fix, origin is where the request is from (frontend port)
-@CrossOrigin(origins = "http://localhost:5173/")
+@RestController   // Marks this class as a REST API controller
+@RequestMapping("/api/exercises")     // Base route for all exercise endpoints
+@CrossOrigin(origins = "http://localhost:5173/")    //CORS issue fix, origin is where the request is from (frontend port)
+
 public class ExerciseController {
 
     // Service layer used for exercise business logic

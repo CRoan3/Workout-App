@@ -1,6 +1,6 @@
 package com.chrisroan.workout.dto;
 
-public class WorkoutDayExerciseCreateRequestDTO {
+public class WorkoutDayExerciseResponseDTO {
     private Long id;
     private Long workoutDayId;
     private Long exerciseId;
@@ -10,6 +10,28 @@ public class WorkoutDayExerciseCreateRequestDTO {
     private String reps;
     private Integer restSeconds;
     private String notes;
+
+    public WorkoutDayExerciseResponseDTO(
+            Long id,
+            Long workoutDayId,
+            Long exerciseId,
+            String exerciseName,
+            Integer exerciseOrder,
+            Integer sets,
+            String reps,
+            Integer restSeconds,
+            String notes
+    ) {
+        this.id = id;
+        this.workoutDayId = workoutDayId;
+        this.exerciseId = exerciseId;
+        this.exerciseName = exerciseName;
+        this.exerciseOrder = exerciseOrder;
+        this.sets = sets;
+        this.reps = reps;
+        this.restSeconds = restSeconds;
+        this.notes = notes;
+    }
 
     public Long getId() {
         return id;
