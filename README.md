@@ -15,7 +15,7 @@ A full-stack workout planning app. Build a library of exercises (with tags and c
 ```
 .
 ├── frontend/          React + Vite app (runs on :5173)
-└── workout-backend/   Spring Boot REST API (runs on :8080)
+└── backend/           Spring Boot REST API (runs on :8080)
     └── src/main/resources/db/migration/   Flyway migrations (V1__, V2__, ...)
 ```
 
@@ -33,12 +33,12 @@ Create an empty database named `Workout_Tracker` (e.g. in pgAdmin, or `createdb 
 
 You don't need to create any tables: Flyway builds the full schema automatically the first time the backend starts.
 
-The backend connects as `postgres` / `postgres` by default; see `workout-backend/src/main/resources/application.properties`.
+The backend connects as `postgres` / `postgres` by default; see `backend/src/main/resources/application.properties`.
 
 ### 2. Run the backend
 
 ```bash
-cd workout-backend
+cd backend
 ./mvnw spring-boot:run        # Windows: .\mvnw.cmd spring-boot:run
 ```
 
@@ -56,7 +56,7 @@ Open http://localhost:5173.
 
 ## Database migrations
 
-The schema is versioned with [Flyway](https://documentation.red-gate.com/flyway). Migrations live in `workout-backend/src/main/resources/db/migration/` and run automatically on backend startup.
+The schema is versioned with [Flyway](https://documentation.red-gate.com/flyway). Migrations live in `backend/src/main/resources/db/migration/` and run automatically on backend startup.
 
 To change the schema:
 
