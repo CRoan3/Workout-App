@@ -77,3 +77,23 @@ Never edit a migration that has already been applied; Flyway checksums each file
 | GET    | `/api/workout-plans/{id}`                  | Get one workout plan           |
 | POST   | `/api/workout-plans`                       | Create a workout plan          |
 | POST   | `/api/workout-days/{dayId}/exercises`      | Add an exercise to a workout day |
+
+### Error responses
+
+Errors use the standard [RFC 9457 Problem Details](https://www.rfc-editor.org/rfc/rfc9457) JSON format, produced by `GlobalExceptionHandler`:
+
+```json
+{
+  "type": "about:blank",
+  "title": "Resource Not Found",
+  "status": 404,
+  "detail": "Exercise not found with id: 99999",
+  "instance": "/api/exercises/99999"
+}
+```
+
+| Status | When                                                              |
+|--------|-------------------------------------------------------------------|
+| 400    | Malformed request (invalid JSON, wrong parameter type, e.g. `/api/exercises/abc`) |
+| 404    | The requested resource (or one it references) doesn't exist     |
+| 500    | Unexpected server error; details are logged server-side, never returned to the client |

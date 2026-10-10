@@ -5,9 +5,9 @@ import com.chrisroan.workout.domain.WorkoutPlan;
 import com.chrisroan.workout.dto.WorkoutPlanCreateRequestDTO;
 import com.chrisroan.workout.dto.WorkoutPlanResponseDTO;
 import com.chrisroan.workout.repository.WorkoutPlanRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+import com.chrisroan.workout.exception.ResourceNotFoundException;
+
 
 import java.util.List;
 
@@ -48,8 +48,7 @@ public class WorkoutPlanService {
     public WorkoutPlanResponseDTO getWorkoutPlanById(Long id) {
         WorkoutPlan workoutPlan = workoutPlanRepository.findById(id)
                 .orElseThrow(() ->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                "Workout Plan not found with id: " + id));
+                        new ResourceNotFoundException("Workout plan", id));
         return mapToDTO(workoutPlan);
     }
 

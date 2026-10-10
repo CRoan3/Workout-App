@@ -9,6 +9,8 @@ import com.chrisroan.workout.repository.ExerciseRepository;
 import com.chrisroan.workout.repository.WorkoutDayExerciseRepository;
 import com.chrisroan.workout.repository.WorkoutDayRepository;
 import org.springframework.stereotype.Service;
+import com.chrisroan.workout.exception.ResourceNotFoundException;
+
 
 
 //Request DTO gives the service instructions. Entity is what the service creates and saves. Response DTO is what the service builds afterward to send back out.
@@ -37,11 +39,11 @@ public class WorkoutDayExerciseService {
     ) {
         WorkoutDay workoutDay = workoutDayRepository.findById(workoutDayId)
                 .orElseThrow(() ->
-                        new RuntimeException("Workout day not found with id: " + workoutDayId)
+                        new ResourceNotFoundException("Workout day", workoutDayId)
                 );
         Exercise exercise = exerciseRepository.findById(request.getExerciseId())
                 .orElseThrow(() ->
-                        new RuntimeException("Exercise not found with id: " + request.getExerciseId())
+                        new ResourceNotFoundException("Exercise", request.getExerciseId())
                 );
 
         WorkoutDayExercise assignment = new WorkoutDayExercise();

@@ -6,6 +6,8 @@ import com.chrisroan.workout.dto.ExerciseResponseDTO;
 import com.chrisroan.workout.dto.ExerciseTipDTO;
 import com.chrisroan.workout.repository.ExerciseRepository;
 import org.springframework.stereotype.Service;
+import com.chrisroan.workout.exception.ResourceNotFoundException;
+
 
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class ExerciseService {
     public ExerciseResponseDTO getExerciseById(Long id) {
         Exercise exercise = exerciseRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Exercise not found with id: " + id));
+                        new ResourceNotFoundException("Exercise", id));
 
         return mapToDTO(exercise);
     }
@@ -99,7 +101,7 @@ public class ExerciseService {
     public ExerciseResponseDTO updateExercise(Long id, ExerciseCreateRequestDTO request) {
         //Find existing exercise first
         Exercise exercise = exerciseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Exercise not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Exercise", id));
 
         //copy updated request data onto the existing entity
         exercise.setName(request.getName());
@@ -108,10 +110,6 @@ public class ExerciseService {
 
         //save the updated entity
         Exercise savedExercise = exerciseRepository.save(exercise);
-
-        // re-fetch the exercise so db-triggered fields like updated_at are current
-        Exercise refreshedExercise = exerciseRepository.findById(savedExercise.getId())
-                .orElseThrow(() -> new RuntimeException("Exercise not found after update."));
 
         //return updated exercise as a DTO
         return mapToDTO(savedExercise);
