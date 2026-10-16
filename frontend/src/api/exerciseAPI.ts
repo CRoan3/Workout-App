@@ -1,11 +1,12 @@
+import { apiRequest } from './client';
+
 // represents one coaching tip from the backend
 export type ExerciseTip = {
     tip: string;
     sortOrder: number;
-}
+};
 
-
-// TS shape for an exercise returned by the backend
+// TS shape for an exercise returned by the backend (mirrors ExerciseResponseDTO)
 export type Exercise = {
     id: number;
     name: string;
@@ -13,83 +14,35 @@ export type Exercise = {
     description: string | null;
     createdAt: string;
     updatedAt: string;
-
-    tags: string[];
+    tags : string[];
     tips: ExerciseTip[];
-}
+};
 
-// Fetches all exercises from the Spring backend
-export async function getExercises(): Promise<Exercise[]> {
-    const response = await fetch("http://localhost:8080/api/exercises");
-
-    // if the request fails, throw an error so the UI can handle it
-    if(!response.ok) {
-        throw new Error("Failed to fetch exercises");
-    }
-
-    // convert the JSON response to an array of exercises
-    return response.json();
-}
-
-// fetches one exercise by ID from Spring boot backend]
-export async function getExercisesById(id: number): Promise<Exercise> {
-    const response = await fetch(`http://localhost:8080/api/exercises/${id}`)   //have to use `` instead of "" to get the id param to work
-
-    if(!response.ok) {
-        throw new Error("Failed to fetch exercises");
-    }
-
-    return response.json();
-}
-
-// Data sent to backend when creating an exercise. Will maybe delete because SaveExerciseRequest is the same thing
-export type CreateExerciseRequest = {
+// data sent to the backend when creating or updating an exercise (mirrors ExerciseRequestDTO)
+export type ExerciseRequest = {
     name: string;
     description: string;
     url: string;
+};
+
+export function getExercises(): Promise<Exercise[]> {
+    return apiRequest<Exercise[]>('/api/exercises');
 }
 
-// Sends a new exercise to the backend
-export async function createExercise(exercise: CreateExerciseRequest): Promise<Exercise> {
-    const response = await fetch("http://localhost:8080/api/exercises", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
+export function getExerciseById(id: number): Promise<Exercise> {
+    return apiRequest<Exercise>(`/api/exercises/${id}`);
+}
+
+export function createExercise(exercise: ExerciseRequest): Promise<Exercise> {
+    return apiRequest<Exercise>('/api/exercises', {
+        method: 'POST',
         body: JSON.stringify(exercise),
     });
-
-    if (!response) {
-        throw new Error("Failed to create exercise.");
-    }
-    
-    return response.json();
 }
 
-
-// data sent to backend when creating/updating an exercise
-export type SaveExerciseRequest = {
-    name: string;
-    description: string;
-    url: string;
-}
-
-// sends updated exercise data to the backend
-export async function updateExercise(
-    id: number,
-    exercise: SaveExerciseRequest
-): Promise<Exercise> {
-    const response = await fetch(`http://localhost:8080/api/exercises/${id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(exercise)
+export function updateExercise(id: number, exercise: ExerciseRequest): Promise<Exercise> {
+    return apiRequest<Exercise>(`/api/exercises/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(exercise),
     });
-
-    if (!response.ok) {
-        throw new Error("Failed to update exercise.");
-    }
-
-    return response.json();  //updated exercise
 }

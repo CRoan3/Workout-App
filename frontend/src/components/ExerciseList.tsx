@@ -16,8 +16,9 @@ export default function ExerciseList() {
                 setExercises(data);
                 setLoading(false);
             })
-            .catch(() => {
-                setError("Error loading exercises.");
+            .catch((err: Error) => {
+                console.error(err);
+                setError(err.message);
                 setLoading(false);
             });
     }, []);

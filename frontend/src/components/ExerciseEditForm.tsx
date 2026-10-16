@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getExercisesById, updateExercise, type Exercise } from "../api/exerciseAPI";
+import { getExerciseById, updateExercise, type Exercise } from "../api/exerciseAPI";
 
 // Form for editing an existing exercise
 export default function ExerciseEditForm() {
@@ -28,7 +28,7 @@ export default function ExerciseEditForm() {
             return;
         }
 
-        getExercisesById(Number(id))
+        getExerciseById(Number(id))
         .then((data) => {        //populating form with exercise data
             setExercise(data);
             setName(data.name);

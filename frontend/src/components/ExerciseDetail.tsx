@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link} from "react-router-dom";
-import { getExercisesById, type Exercise } from "../api/exerciseAPI";
+import { getExerciseById, type Exercise } from "../api/exerciseAPI";
 
 
 //displays details for a single exercise
@@ -15,7 +15,7 @@ export default function ExerciseDetail() {
     useEffect(() => {
         if (!id) return;
 
-        getExercisesById(Number(id))
+        getExerciseById(Number(id))
             .then((data) => {
              setExercise(data);
         })

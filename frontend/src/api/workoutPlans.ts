@@ -1,3 +1,5 @@
+import { apiRequest } from './client';
+
 export type WorkoutPlanCreateRequest = {   //this TS type mirrors WorkoutPlanCreateRequestDTO
     name: string;
     description: string;
@@ -6,25 +8,23 @@ export type WorkoutPlanCreateRequest = {   //this TS type mirrors WorkoutPlanCre
 export type WorkoutPlan = {
     id: number;
     name: string;
-    description: string;
+    description: string | null;
     createdAt: string;
     updatedAt: string;
 }
 
-export async function createWorkoutPlan(
-    request: WorkoutPlanCreateRequest
-): Promise<WorkoutPlan> {
-    const response = await fetch("http://localhost:8080/api/workout-plans", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(request),
+//none of these functions need async/await because they are just returning the Promise from apiRequest, which is already async. They will hand the promise back to the caller, which can then await it if they want to
+export function createWorkoutPlan(workoutPlan: WorkoutPlanCreateRequest): Promise<WorkoutPlan> {
+    return apiRequest<WorkoutPlan>('/api/workout-plans', {
+        method: 'POST',
+        body: JSON.stringify(workoutPlan),
     });
+}
 
-    if (!response.ok) {
-        throw new Error("Failed to create workout plan.")
-    }
+export function getWorkoutPlans(): Promise<WorkoutPlan[]> {
+    return apiRequest<WorkoutPlan[]>('/api/workout-plans');
+}
 
-    return response.json();
+export function getWorkoutPlanById(id: number): Promise<WorkoutPlan> {
+    return apiRequest<WorkoutPlan>(`/api/workout-plans/${id}`);
 }
