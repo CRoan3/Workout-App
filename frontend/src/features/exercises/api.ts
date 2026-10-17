@@ -1,4 +1,4 @@
-import { apiRequest } from './client';
+import { apiRequest } from '../../lib/apiClient';
 
 // represents one coaching tip from the backend
 export type ExerciseTip = {

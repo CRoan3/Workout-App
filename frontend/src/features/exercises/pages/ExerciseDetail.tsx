@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link} from "react-router-dom";
-import { getExerciseById, type Exercise } from "../api/exerciseAPI";
+import { getExerciseById, type Exercise } from "../api";
 
 
 //displays details for a single exercise

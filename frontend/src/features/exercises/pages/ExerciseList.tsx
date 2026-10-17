@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { type Exercise, getExercises } from "../api/exerciseAPI";
+import { type Exercise, getExercises } from "../api";
 
 // Displays the list of exercises from the backend. We will include filtering here until our exercise compendium grows
 export default function ExerciseList() {

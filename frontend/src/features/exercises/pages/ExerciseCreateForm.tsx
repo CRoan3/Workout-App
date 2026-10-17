@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createExercise } from "../api/exerciseAPI";
+import { createExercise } from "../api";
 
 
 // Form for creating a new exercise

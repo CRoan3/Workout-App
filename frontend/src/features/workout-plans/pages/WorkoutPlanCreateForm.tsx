@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createWorkoutPlan, type WorkoutPlanCreateRequest } from "../api/workoutPlans";
+import { createWorkoutPlan, type WorkoutPlanCreateRequest } from "../api";
 
 export default function WorkoutPlanCreateForm() {
     const [name, setName] = useState("");          // Stores the current value of the workout plan name textbox
