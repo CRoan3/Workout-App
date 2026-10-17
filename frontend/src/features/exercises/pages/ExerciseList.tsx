@@ -1,34 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { type Exercise, getExercises } from "../api";
+import { useExercises } from "../queries";
 
 // Displays the list of exercises from the backend. We will include filtering here until our exercise compendium grows
 export default function ExerciseList() {
-    const [exercises, setExercises] = useState<Exercise[]>([]);     //stores exercises returned from API in an array
-    const [loading, setLoading] = useState(true);                   //tracks if data is still loading
-    const [error, setError] = useState("");                         //stores error messages
-    const [searchTerm, setSearchTerm] = useState("");
+    const { data: exercises = [], isPending, error } = useExercises();
+    const [searchTerm, setSearchTerm] = useState("");    // UI state: stays as useState
 
-    // runs once on init component load
-    useEffect(() => {
-        getExercises()
-            .then((data) => {
-                setExercises(data);
-                setLoading(false);
-            })
-            .catch((err: Error) => {
-                console.error(err);
-                setError(err.message);
-                setLoading(false);
-            });
-    }, []);
-
-    if (loading) {
-        return <p>Loading exercises...</p>
+    if (isPending) {
+        return <p>Loading exercises...</p>;
     }
 
     if (error) {
-        return <p>{error}</p>
+        return <p>{error.message}</p>;
     }
 
     const search = searchTerm.toLowerCase();
