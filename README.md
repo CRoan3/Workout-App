@@ -15,8 +15,9 @@ A full-stack workout planning app. Build a library of exercises (with tags and c
 ```
 .
 ├── frontend/          React + Vite app (runs on :5173); see frontend/README.md for its structure and conventions
-└── backend/           Spring Boot REST API (runs on :8080); see backend/README.md for its structure and conventions
-    └── src/main/resources/db/migration/   Flyway migrations (V1__, V2__, ...)
+├── backend/           Spring Boot REST API (runs on :8080); see backend/README.md for its structure and conventions
+│   └── src/main/resources/db/migration/   Flyway migrations (V1__, V2__, ...)
+└── docs/adr/          Architecture Decision Records: why key technical choices were made
 ```
 
 ## Prerequisites

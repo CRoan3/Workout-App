@@ -1,4 +1,4 @@
-import { apiRequest } from '../../lib/apiClient';
+import { apiRequest } from '@/lib/apiClient';
 
 export type WorkoutPlanCreateRequest = {   //this TS type mirrors WorkoutPlanCreateRequestDTO
     name: string;

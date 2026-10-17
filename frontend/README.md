@@ -35,12 +35,24 @@ src/
 
 If something starts out feature-specific and later gets used by a second feature, move it up to `components/` or `lib/`.
 
+### Imports
+
+`@/` is an alias for `src/`, configured in both `tsconfig.app.json` (`paths`, for TypeScript and the editor) and `vite.config.ts` (`resolve.alias`, for the build). Change both together.
+
+- Use `@/` for anything **outside the current feature**: `import { apiRequest } from "@/lib/apiClient"`.
+- Inside a feature, use short relative imports: `import { getExercises } from "../api"`.
+- Avoid long `../../` chains; they break when files move.
+
+## Data fetching
+
+Data from the backend is loaded with **TanStack Query**, not `useEffect` + `useState`. For the reasoning, see [ADR 0001](../docs/adr/0001-use-tanstack-query-for-server-data.md). Use `useState` only for UI state that lives in the browser (form inputs, search text, toggles).
+
 ## Talking to the backend
 
 All HTTP calls go through `apiRequest` in [`src/lib/apiClient.ts`](src/lib/apiClient.ts). Components never call `fetch` directly.
 
 ```ts
-// features/exercises/api.ts
+// features/exercises/api.ts  (imports apiRequest from "@/lib/apiClient")
 export function getExerciseById(id: number): Promise<Exercise> {
     return apiRequest<Exercise>(`/api/exercises/${id}`);
 }

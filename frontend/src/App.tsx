@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import ExerciseList from './features/exercises/pages/ExerciseList';
-import ExerciseDetail from './features/exercises/pages/ExerciseDetail';
-import './App.css';
-import ExerciseCreateForm from "./features/exercises/pages/ExerciseCreateForm";
-import ExerciseEditForm from "./features/exercises/pages/ExerciseEditForm";
-import Layout from "./components/Layout";
-import NotFound from "./pages/NotFound";
+import ExerciseList from '@/features/exercises/pages/ExerciseList';
+import ExerciseDetail from '@/features/exercises/pages/ExerciseDetail';
+import '@/App.css';
+import ExerciseCreateForm from "@/features/exercises/pages/ExerciseCreateForm";
+import ExerciseEditForm from "@/features/exercises/pages/ExerciseEditForm";
+import Layout from "@/components/Layout";
+import NotFound from "@/pages/NotFound";
 
 // Main app component
 // Route element=Layout means that Layout is the shared page shell for all routes, and the current route renders in <Outlet> (placeholder) in Layout
