@@ -4,10 +4,11 @@ import { Link, NavLink, Outlet} from "react-router-dom";
 export default function Layout() {
   return ( 
     <>
-        <header>
-            <Link to="/">Workout App</Link>
+        <header className="app-header">
+            <Link to="/" className="brand">Workout App</Link>
             <nav>
                 <NavLink to="/exercises">Exercises</NavLink>
+                <NavLink to="/workout-plans">Workout Plans</NavLink>
             </nav>
         </header>
 

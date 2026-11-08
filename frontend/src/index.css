@@ -1,68 +1,272 @@
+/* Global styles for the whole app.
+   Colors are CSS variables so light and dark mode only need to swap the values. */
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --text: #1f2933;
+  --muted: #616e7c;
+  --border: #d9dee4;
+  --accent: #2f6fde;
+  --accent-hover: #2258b8;
+  --accent-text: #ffffff;
+  --error-bg: #fdecea;
+  --error-text: #a12622;
+  --radius: 8px;
+
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.5;
-  font-weight: 400;
-
+  color: var(--text);
+  background-color: var(--bg);
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15181c;
+    --surface: #1f2329;
+    --text: #e4e7eb;
+    --muted: #9aa5b1;
+    --border: #343a42;
+    --accent: #5b8def;
+    --accent-hover: #7aa3f2;
+    --accent-text: #0b1220;
+    --error-bg: #3b1d1c;
+    --error-text: #f5a9a5;
+  }
 }
-a:hover {
-  color: #535bf2;
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
   min-height: 100vh;
+  background-color: var(--bg);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
+h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.6rem;
+}
+h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.1rem;
+}
+
+/* ---------- Header + nav (Layout.tsx) ---------- */
+
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 2rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.app-header .brand {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.app-header nav {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.app-header nav a {
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius);
+  color: var(--muted);
   font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+  white-space: nowrap;
 }
-button:hover {
-  border-color: #646cff;
+.app-header nav a:hover {
+  color: var(--text);
+  text-decoration: none;
+  background-color: var(--bg);
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+/* NavLink adds class="active" to the link for the current page */
+.app-header nav a.active {
+  color: var(--accent);
+  background-color: var(--bg);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* ---------- Page building blocks ---------- */
+
+/* Title on the left, main action (e.g. "Create") on the right */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.page-header h2 {
+  margin: 0;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.error {
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--radius);
+  background-color: var(--error-bg);
+  color: var(--error-text);
+}
+
+/* A white box used for detail pages, forms and sections */
+.panel {
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.panel > :last-child {
+  margin-bottom: 0;
+}
+
+/* Lists of exercises / plans shown as clickable cards */
+.card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+.card-list li {
+  padding: 1rem 1.25rem;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.card-list li:hover {
+  border-color: var(--accent);
+}
+.card-list p {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Small rounded labels for exercise tags */
+.tag-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.tag-list li {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+}
+
+/* ---------- Buttons ---------- */
+
+/* .button lets a <Link> look like a button */
+button,
+.button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background-color: var(--accent);
+  color: var(--accent-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+button:hover,
+.button:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--accent-text);
+  text-decoration: none;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button.secondary {
+  background-color: transparent;
+  color: var(--accent);
+}
+.button.secondary:hover {
+  background-color: var(--bg);
+  color: var(--accent-hover);
+}
+
+/* ---------- Forms ---------- */
+
+form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+input:focus,
+textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+  border-color: var(--accent);
+}
+textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+
+/* Search box above a list */
+.search {
+  margin-bottom: 1rem;
 }

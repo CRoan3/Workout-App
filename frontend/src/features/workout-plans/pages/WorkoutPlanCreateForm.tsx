@@ -1,62 +1,50 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { createWorkoutPlan, type WorkoutPlanCreateRequest } from "../api";
+import { Link, useNavigate } from "react-router-dom";
+import { useCreateWorkoutPlan } from "../queries";
 
+// Form for creating a new workout plan
 export default function WorkoutPlanCreateForm() {
-    const [name, setName] = useState("");          // Stores the current value of the workout plan name textbox
-    const [description, setDescription] = useState("");     // Stores the current value of the description textbox
     const navigate = useNavigate();
+    const createPlan = useCreateWorkoutPlan();    // gives us mutate(), isPending and error for the save
 
-    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();    //prevents browser from refreshing the page
+    // form input state
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
 
-        const request: WorkoutPlanCreateRequest = {
-            name,
-            description
-        };
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();    // prevents browser from refreshing the page
 
-        try {
-            const workoutPlan = await createWorkoutPlan(request);
-
-            navigate(`/workout-plans/${workoutPlan.id}`);
-        } catch (error) {
-            console.error(error);
-            alert("Failed to create workout plan.")
-        }
+        createPlan.mutate(
+            { name, description },
+            {
+                // after creation, go to the new workout plan's detail page
+                onSuccess: (workoutPlan) => navigate(`/workout-plans/${workoutPlan.id}`),
+            }
+        );
     }
 
-    return(
-        <form onSubmit={handleSubmit}>
+    return (
+        <section>
+            <Link to="/workout-plans" className="back-link">← Back to workout plans</Link>
             <h2>Create Workout Plan</h2>
-            <div>
-                <label>Name</label>
 
-                <br />
+            {createPlan.error && <p className="error">{createPlan.error.message}</p>}
 
-                <input 
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)} 
-                />
-            </div>
+            <form onSubmit={handleSubmit} className="panel">
+                <div>
+                    <label htmlFor="name">Name</label>
+                    <input id="name" value={name} onChange={(event) => setName(event.target.value)} required />
+                </div>
 
-            <br />
+                <div>
+                    <label htmlFor="description">Description</label>
+                    <textarea id="description" value={description} onChange={(event) => setDescription(event.target.value)} />
+                </div>
 
-            <div>
-                <label>Description</label>
-                <br />
-                <textarea 
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
-            </div>
-
-            <br />
-
-            <button type="submit">
-                Create Workout Plan
-            </button>
-
-        </form>
+                <button type="submit" disabled={createPlan.isPending}>
+                    {createPlan.isPending ? "Saving..." : "Create Workout Plan"}
+                </button>
+            </form>
+        </section>
     );
 }

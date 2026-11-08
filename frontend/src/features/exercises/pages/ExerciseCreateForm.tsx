@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createExercise } from "../api";
+import { toSlug } from "@/lib/slug";
 
 
 // Form for creating a new exercise
@@ -33,7 +34,7 @@ export default function ExerciseCreateForm() {
             console.log(createdExercise);  //for checking backend response - REMOVE
 
             //after creation, go to the new exercise detail page
-            navigate(`/exercises/${createdExercise.id}`);
+            navigate(`/exercises/${toSlug(createdExercise.id, createdExercise.name)}`);
         } catch {
             setError("Could not create exercise.")
         } finally {
@@ -43,13 +44,14 @@ export default function ExerciseCreateForm() {
 
     return (
         <section>
+            <Link to="/exercises" className="back-link">← Back to exercises</Link>
             <h2>
                 Create Exercise
             </h2>
 
-            {error && <p>{error}</p>}
+            {error && <p className="error">{error}</p>}
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="panel">
                 <div>
                     <label htmlFor="name">Name</label>
                     <input id="name" value={name} onChange={(event) => setName(event.target.value)} required/> 

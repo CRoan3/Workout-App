@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getExerciseById, updateExercise, type Exercise } from "../api";
+import { idFromSlug, toSlug } from "@/lib/slug";
 
 // Form for editing an existing exercise
 export default function ExerciseEditForm() {
-    const { id } = useParams();
+    const { slug } = useParams();     // e.g. "1-flat-bench-press"
+    const id = idFromSlug(slug);      // e.g. 1
     const navigate = useNavigate();
 
     const [exercise, setExercise] = useState<Exercise | null>(null);
@@ -22,13 +24,13 @@ export default function ExerciseEditForm() {
 
     // Load the current exercise data so the form can be prefilled
     useEffect(() => {
-        if (!id) {
+        if (Number.isNaN(id)) {
             setError("No valid exercise ID provided.")
             setLoading(false);
             return;
         }
 
-        getExerciseById(Number(id))
+        getExerciseById(id)
         .then((data) => {        //populating form with exercise data
             setExercise(data);
             setName(data.name);
@@ -46,7 +48,7 @@ export default function ExerciseEditForm() {
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        if (!id) {
+        if (Number.isNaN(id)) {
             setError("No valid exercise ID provided.");
             return;
         }
@@ -55,12 +57,13 @@ export default function ExerciseEditForm() {
         setError("");
 
         try {
-            const updatedExercise = await updateExercise(Number(id), {
+            const updatedExercise = await updateExercise(id, {
                 name,
                 description,
                 url
             });
-            navigate(`/exercises/${updatedExercise.id}`);
+            // build the URL from the saved name, since a rename changes it
+            navigate(`/exercises/${toSlug(updatedExercise.id, updatedExercise.name)}`);
         } catch {
             setError("Could not update exercise.")
         } finally {
@@ -73,17 +76,17 @@ export default function ExerciseEditForm() {
     }
 
     if (error && !exercise) {
-        return <p>{error}</p>
+        return <p className="error">{error}</p>
     }
 
     return (
         <section>
-            <Link to={`/exercises/${id}`}>← Back to exercise</Link>
+            <Link to={`/exercises/${slug}`} className="back-link">← Back to exercise</Link>
             <h2>Edit Exercise</h2>
 
-            {error && <p>{error}</p>}
+            {error && <p className="error">{error}</p>}
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="panel">
                 <div>
                     <label htmlFor="name">Name</label>
                     <input id="name"
