@@ -9,6 +9,7 @@ export default function Layout() {
             <nav>
                 <NavLink to="/exercises">Exercises</NavLink>
                 <NavLink to="/workout-plans">Workout Plans</NavLink>
+                <NavLink to="/profile">Profile</NavLink>
             </nav>
         </header>
 
